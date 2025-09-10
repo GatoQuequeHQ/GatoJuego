@@ -16,13 +16,15 @@ jobs:
               with:
                   node-version: "24.1.x"
 
+            - name: Restore Node dependencies
+              run: npm ci
 
             - name: Setup .NET
               uses: actions/setup-dotnet@v4
               with:
                   dotnet-version: '9.x'
 
-            - name: Restore dependencies
+            - name: Restore .NET dependencies
               run: dotnet restore
 
             - name: Run Semantic Release
