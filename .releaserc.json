@@ -1,0 +1,33 @@
+{
+	"branches": [
+		"main",
+		{
+			"name": "dev",
+			"prerelease": "alpha"
+		}
+	],
+	"plugins": [
+		"@semantic-release/commit-analyzer",
+		"@semantic-release/release-notes-generator",
+		[
+			"@semantic-release/changelog",
+			{
+				"changelogFile": "CHANGELOG.md"
+			}
+		],
+		[
+			"@semantic-release/exec",
+			{
+				"prepareCmd": "dotnet msbuild /t:UpdateVersion /p:Version=${nextRelease.version}"
+			}
+		],
+		[
+			"@semantic-release/git",
+			{
+				"assets": ["*.csproj", "CHANGELOG.md"]
+			}
+		],
+		"@semantic-release/github"
+	],
+	"preset": "angular"
+}
