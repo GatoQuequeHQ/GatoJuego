@@ -30,7 +30,14 @@
 
 	<Target Name="SetupGitHooks" BeforeTargets="Restore">
 		<Message Text="Configuring git hooks" Importance="high"/>
-		<Exec Command="powershell -File ../setup_git_hooks.ps1"/>
+
+		<!-- Windows -->
+		<Exec Condition="'$(OS)' == 'Windows_NT'"
+			  Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\setup_git_hooks.ps1&quot;" />
+
+		<!-- Linux / macOS -->
+		<Exec Condition="'$(OS)' != 'Windows_NT'"
+			  Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)/../setup_git_hooks.ps1&quot;" />
 	</Target>
 
 	<ItemGroup>
