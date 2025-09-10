@@ -1,8 +1,8 @@
 name: Version and Release
 
-on:
-    push:
-        branches: [main, dev]
+#on:
+#    push:
+#        branches: [main, dev]
 
 permissions:
     contents: write
