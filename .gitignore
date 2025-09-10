@@ -5,6 +5,9 @@
 
 .idea/
 
+# Marker folder used to store marker files (See the "SetupGitHooks" Target for GatoQueque.GatoJuego.csproj")
+.markers/
+
 # User-specific files
 *.rsuser
 *.suo

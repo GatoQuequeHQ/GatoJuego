@@ -17,19 +17,41 @@
 		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
 		<AnalysisLevel>latest-all</AnalysisLevel>
-		<CodeAnalysisRuleSet>../stylecop.ruleset</CodeAnalysisRuleSet>
 		<WarningLevel>4</WarningLevel>
 		<NoWarn>1701;1702;RS1035</NoWarn>
 		<RootNamespace>GatoQueque.GatoJuego</RootNamespace>
 	</PropertyGroup>
 
+	<Target Name="UpdateVersion">
+		<Message Text="Updating version to $(Version)" Importance="high"/>
+		<XmlPoke XmlInputPath="$(MSBuildProjectFullPath)"
+				 Query="/Project/PropertyGroup/Version"
+				 Value="$(Version)"/>
+	</Target>
+
+	<Target Name="SetupGitHooks" BeforeTargets="Build" Condition="!Exists('$(MSBuildProjectDirectory)/.markers/hooks/.git_hooks_setup_done')">
+		<Message Text="Configuring git hooks" Importance="high"/>
+
+		<!-- Windows -->
+		<Exec Condition="'$(OS)' == 'Windows_NT'"
+			  Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\setup_git_hooks.ps1&quot;" />
+
+		<!-- Linux / macOS -->
+		<Exec Condition="'$(OS)' != 'Windows_NT'"
+			  Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)/../setup_git_hooks.ps1&quot;" />
+
+		<WriteLinesToFile
+			File="$(MSBuildProjectDirectory)/.markers/hooks/.git_hooks_setup_done"
+			Overwrite="true" />
+	</Target>
+
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
-	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9"/>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9"/>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9"/>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Shared\" />
+		<Folder Include="Shared\"/>
 	</ItemGroup>
 </Project>

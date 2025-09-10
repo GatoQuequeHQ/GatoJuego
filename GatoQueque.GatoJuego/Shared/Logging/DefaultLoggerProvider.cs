@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-
 namespace GatoQueque.GatoJuego.Shared.Logging;
 
 internal sealed class DefaultLoggerProvider : ILoggerProvider
