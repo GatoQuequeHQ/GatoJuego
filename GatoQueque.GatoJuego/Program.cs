@@ -1,4 +1,4 @@
-﻿using GatoQueque.GatoJuego.Core;
+using GatoQueque.GatoJuego.Core;
 using GatoQueque.GatoJuego.Shared.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);
