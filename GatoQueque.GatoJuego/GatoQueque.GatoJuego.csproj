@@ -28,7 +28,7 @@
 				 Value="$(Version)"/>
 	</Target>
 
-	<Target Name="SetupGitHooks" BeforeTargets="Restore">
+	<Target Name="SetupGitHooks" BeforeTargets="Build" Condition="!Exists('$(MSBuildProjectDirectory)/.markers/hooks/.git_hooks_setup_done')">
 		<Message Text="Configuring git hooks" Importance="high"/>
 
 		<!-- Windows -->
@@ -38,6 +38,10 @@
 		<!-- Linux / macOS -->
 		<Exec Condition="'$(OS)' != 'Windows_NT'"
 			  Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)/../setup_git_hooks.ps1&quot;" />
+
+		<WriteLinesToFile
+			File="$(MSBuildProjectDirectory)/.markers/hooks/.git_hooks_setup_done"
+			Overwrite="true" />
 	</Target>
 
 	<ItemGroup>
