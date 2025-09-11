@@ -1,4 +1,4 @@
-- [.NET](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) (Min Ver 9.0.9)
+- [.NET](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) (SDK 10.0.100-rc.1)
 - [Node](https://nodejs.org/en/download) (Min Ver 24.1)
 
 Luego de clonar el repositorio, es necesario realizar lo siguiente:
