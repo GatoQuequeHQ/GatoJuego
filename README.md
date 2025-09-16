@@ -3,4 +3,4 @@
 
 Luego de clonar el repositorio, es necesario realizar lo siguiente:
 1. Dirigirse a la carpeta llamada GatoQueque.GatoJuego
-2. Ejecutar ```dotnet build``` (Esto instalará las dependencias, instalará hooks de git, ejecutará scripts y construirá el proyecto)
+2. En windows, ejecutar: ```powershell -NoProfile -ExecutionPolicy Bypass -File "$(MSBuildProjectDirectory)\..\setup_git_hooks.ps1"```. En Linux, ejecutar: ```pwsh -NoProfile -ExecutionPolicy Bypass -File "$(MSBuildProjectDirectory)/../setup_git_hooks.ps1"```

@@ -20,7 +20,7 @@
 		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
 		<AnalysisLevel>latest-all</AnalysisLevel>
 		<WarningLevel>4</WarningLevel>
-		<NoWarn>1701;1702;RS1035</NoWarn>
+		<NoWarn>1701;1702;RS1035;CA1515</NoWarn>
 		<RootNamespace>GatoQueque.GatoJuego</RootNamespace>
 	</PropertyGroup>
 
@@ -31,22 +31,6 @@
 				 Value="$(Version)"/>
 	</Target>
 
-	<Target Name="SetupGitHooks" BeforeTargets="Build" Condition="!Exists('$(MSBuildProjectDirectory)/.markers/hooks/.git_hooks_setup_done')">
-		<Message Text="Configuring git hooks" Importance="high"/>
-
-		<!-- Windows -->
-		<Exec Condition="'$(OS)' == 'Windows_NT'"
-			  Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\setup_git_hooks.ps1&quot;" />
-
-		<!-- Linux / macOS -->
-		<Exec Condition="'$(OS)' != 'Windows_NT'"
-			  Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)/../setup_git_hooks.ps1&quot;" />
-
-		<WriteLinesToFile
-			File="$(MSBuildProjectDirectory)/.markers/hooks/.git_hooks_setup_done"
-			Overwrite="true" />
-	</Target>
-
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9"/>
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.9"/>
@@ -55,6 +39,5 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Shared\"/>
 	</ItemGroup>
 </Project>
