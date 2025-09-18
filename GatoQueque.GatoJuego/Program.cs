@@ -8,6 +8,11 @@ builder.Logging
 	.ClearProviders()
 	.AddLogging();
 
+
+builder.Services.AddLocalization(options =>
+{
+	options.ResourcesPath = "Resources";
+});
 builder.Services.AddAssets();
 builder.Services.AddHostedService<GameService>();
 
