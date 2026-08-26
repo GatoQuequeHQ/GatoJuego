@@ -5,13 +5,13 @@ namespace GatoQueque.GatoJuego.Core.Assets;
 
 internal sealed class Texture
 {
-	private readonly String _fileName;
+	private readonly String _filePath;
 	private Image? _inRam;
 	private Texture2D? _inVRam;
 
-	internal Texture(String fileName)
+	internal Texture(String filePath)
 	{
-		_fileName = fileName;
+		_filePath = filePath;
 	}
 
 	internal Int32 LastUsedTick { get; private set; }
@@ -40,7 +40,7 @@ internal sealed class Texture
 			return;
 		}
 
-		_inRam = Raylib.LoadImage(_fileName);
+		_inRam = Raylib.LoadImage(_filePath);
 	}
 
 	[MemberNotNull(nameof(_inVRam))]
@@ -57,7 +57,7 @@ internal sealed class Texture
 			return;
 		}
 
-		_inVRam = Raylib.LoadTexture(_fileName);
+		_inVRam = Raylib.LoadTexture(_filePath);
 	}
 
 	internal void Unload()
