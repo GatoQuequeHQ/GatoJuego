@@ -35,12 +35,17 @@ internal sealed class Texture
 		if (_inVram is not null)
 		{
 			_inRam ??= Raylib.LoadImageFromTexture(_inVram.Value);
+			if (!Raylib.IsImageValid(_inRam.Value))
+				throw new AssetLoadException($"Failed to load to the CPU a texture from the GPU: {_filePath}");
+
 			Raylib.UnloadTexture(_inVram.Value);
 			_inVram = null;
 			return;
 		}
 
 		_inRam = Raylib.LoadImage(_filePath);
+		if (!Raylib.IsImageValid(_inRam.Value))
+			throw new AssetLoadException($"Failed to load to the CPU a texture from the file: {_filePath}");
 	}
 
 	[MemberNotNull(nameof(_inVram))]
@@ -52,12 +57,17 @@ internal sealed class Texture
 		if (_inRam is not null)
 		{
 			_inVram = Raylib.LoadTextureFromImage(_inRam.Value);
+			if (!Raylib.IsTextureValid(_inVram.Value))
+				throw new AssetLoadException($"Failed to load to the GPU a texture from the CPU: {_filePath}");
+
 			Raylib.UnloadImage(_inRam.Value);
 			_inRam = null;
 			return;
 		}
 
 		_inVram = Raylib.LoadTexture(_filePath);
+		if (!Raylib.IsTextureValid(_inVram.Value))
+			throw new AssetLoadException($"Failed to load to the GPU a texture from the file: {_filePath}");
 	}
 
 	internal void Unload()
