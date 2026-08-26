@@ -7,7 +7,7 @@ internal sealed class Texture
 {
 	private readonly String _filePath;
 	private Image? _inRam;
-	private Texture2D? _inVRam;
+	private Texture2D? _inVram;
 
 	internal Texture(String filePath)
 	{
@@ -21,8 +21,8 @@ internal sealed class Texture
 		get
 		{
 			LastUsedTick = Environment.TickCount;
-			LoadToVRam();
-			return _inVRam.Value;
+			LoadToVram();
+			return _inVram.Value;
 		}
 	}
 
@@ -32,40 +32,40 @@ internal sealed class Texture
 		if (_inRam is not null)
 			return;
 
-		if (_inVRam is not null)
+		if (_inVram is not null)
 		{
-			_inRam ??= Raylib.LoadImageFromTexture(_inVRam.Value);
-			Raylib.UnloadTexture(_inVRam.Value);
-			_inVRam = null;
+			_inRam ??= Raylib.LoadImageFromTexture(_inVram.Value);
+			Raylib.UnloadTexture(_inVram.Value);
+			_inVram = null;
 			return;
 		}
 
 		_inRam = Raylib.LoadImage(_filePath);
 	}
 
-	[MemberNotNull(nameof(_inVRam))]
-	internal void LoadToVRam()
+	[MemberNotNull(nameof(_inVram))]
+	internal void LoadToVram()
 	{
-		if (_inVRam is not null)
+		if (_inVram is not null)
 			return;
 
 		if (_inRam is not null)
 		{
-			_inVRam = Raylib.LoadTextureFromImage(_inRam.Value);
+			_inVram = Raylib.LoadTextureFromImage(_inRam.Value);
 			Raylib.UnloadImage(_inRam.Value);
 			_inRam = null;
 			return;
 		}
 
-		_inVRam = Raylib.LoadTexture(_filePath);
+		_inVram = Raylib.LoadTexture(_filePath);
 	}
 
 	internal void Unload()
 	{
-		if (_inVRam is not null)
+		if (_inVram is not null)
 		{
-			Raylib.UnloadTexture(_inVRam.Value);
-			_inVRam = null;
+			Raylib.UnloadTexture(_inVram.Value);
+			_inVram = null;
 		}
 
 		if (_inRam is not null)
