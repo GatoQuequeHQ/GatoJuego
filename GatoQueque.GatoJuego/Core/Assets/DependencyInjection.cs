@@ -7,6 +7,7 @@ internal static class DependencyInjection
 		internal IServiceCollection AddAssets()
 		{
 			services.AddSingleton<TextureIndex>();
+			services.AddSingleton<TextFontIndex>();
 			return services;
 		}
 	}
