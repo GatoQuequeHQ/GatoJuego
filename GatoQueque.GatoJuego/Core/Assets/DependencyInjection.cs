@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace GatoQueque.GatoJuego.Core.Assets;
 
 internal static class DependencyInjection
@@ -7,7 +9,12 @@ internal static class DependencyInjection
 		internal IServiceCollection AddAssets()
 		{
 			services.AddSingleton<TextureIndex>();
-			services.AddSingleton<TextFontIndex>();
+			services.AddSingleton<FontIndex>(_ =>
+			{
+				var texturesPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "fonts");
+				var fileNames = Directory.GetFiles(texturesPath, "*.*", SearchOption.AllDirectories);
+				return new FontIndex(fileNames);
+			});
 			return services;
 		}
 	}

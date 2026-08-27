@@ -1,8 +1,46 @@
-﻿namespace GatoQueque.GatoJuego.Core.Assets;
+﻿using Raylib_cs;
+using System.Diagnostics.CodeAnalysis;
 
-internal abstract class Font
+namespace GatoQueque.GatoJuego.Core.Assets;
+
+internal sealed class Font
 {
-	internal abstract Raylib_cs.Font Value { get; }
+	private readonly String _filePath;
+	private Raylib_cs.Font? _inVram;
+
+	internal Font(String filePath)
+	{
+		_filePath = filePath;
+	}
+
+	internal Raylib_cs.Font Value
+	{
+		get
+		{
+			LoadToVram();
+			return _inVram.Value;
+		}
+	}
+
+	[MemberNotNull(nameof(_inVram))]
+	internal void LoadToVram()
+	{
+		if (_inVram is not null)
+			return;
+
+		_inVram = Raylib.LoadFont(_filePath);
+		if (!Raylib.IsFontValid(_inVram.Value))
+			throw new AssetLoadException($"Failed to load to the GPU a texture from the file: {_filePath}");
+	}
+
+	internal void Unload()
+	{
+		if (_inVram is null)
+			return;
+
+		Raylib.UnloadFont(_inVram.Value);
+		_inVram = null;
+	}
 
 	public static implicit operator Raylib_cs.Font(Font font) => font.Value;
 }
