@@ -3,17 +3,17 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class FileFont : TextFont
+internal sealed class FileFont : Font
 {
 	private readonly String _filePath;
-	private Font? _inVram;
+	private Raylib_cs.Font? _inVram;
 
 	internal FileFont(String filePath)
 	{
 		_filePath = filePath;
 	}
 
-	internal override Font Value
+	internal override Raylib_cs.Font Value
 	{
 		get
 		{
