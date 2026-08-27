@@ -5,4 +5,6 @@ namespace GatoQueque.GatoJuego.Core.Assets;
 internal abstract class TextFont
 {
 	internal abstract Font Value { get; }
+
+	public static implicit operator Font(TextFont textFont) => textFont.Value;
 }
