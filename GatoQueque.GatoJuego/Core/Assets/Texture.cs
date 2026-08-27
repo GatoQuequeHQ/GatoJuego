@@ -16,6 +16,14 @@ internal sealed class Texture
 
 	internal Int32 LastUsedTick { get; private set; }
 
+	internal Boolean IsLoaded => _inRam is not null || _inVram is not null;
+
+	[MemberNotNullWhen(true, nameof(_inRam))]
+	internal Boolean IsLoadedInRam => _inRam is not null;
+
+	[MemberNotNullWhen(true, nameof(_inVram))]
+	internal Boolean IsLoadedInVram => _inVram is not null;
+
 	internal Image Image
 	{
 		get
@@ -39,10 +47,10 @@ internal sealed class Texture
 	[MemberNotNull(nameof(_inRam))]
 	internal void LoadToRam()
 	{
-		if (_inRam is not null)
+		if (IsLoadedInRam)
 			return;
 
-		if (_inVram is not null)
+		if (IsLoadedInVram)
 		{
 			_inRam ??= Raylib.LoadImageFromTexture(_inVram.Value);
 			if (!Raylib.IsImageValid(_inRam.Value))
@@ -61,10 +69,10 @@ internal sealed class Texture
 	[MemberNotNull(nameof(_inVram))]
 	internal void LoadToVram()
 	{
-		if (_inVram is not null)
+		if (IsLoadedInVram)
 			return;
 
-		if (_inRam is not null)
+		if (IsLoadedInRam)
 		{
 			_inVram = Raylib.LoadTextureFromImage(_inRam.Value);
 			if (!Raylib.IsTextureValid(_inVram.Value))
@@ -82,13 +90,13 @@ internal sealed class Texture
 
 	internal void Unload()
 	{
-		if (_inVram is not null)
+		if (IsLoadedInVram)
 		{
 			Raylib.UnloadTexture(_inVram.Value);
 			_inVram = null;
 		}
 
-		if (_inRam is not null)
+		if (IsLoadedInRam)
 		{
 			Raylib.UnloadImage(_inRam.Value);
 			_inRam = null;
