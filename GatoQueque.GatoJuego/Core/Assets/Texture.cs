@@ -16,6 +16,16 @@ internal sealed class Texture
 
 	internal Int32 LastUsedTick { get; private set; }
 
+	internal Image Image
+	{
+		get
+		{
+			LastUsedTick = Environment.TickCount;
+			LoadToRam();
+			return _inRam.Value;
+		}
+	}
+
 	internal Texture2D Value
 	{
 		get
