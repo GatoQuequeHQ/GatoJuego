@@ -8,7 +8,12 @@ internal static class DependencyInjection
 	{
 		internal IServiceCollection AddAssets()
 		{
-			services.AddSingleton<TextureIndex>();
+			services.AddSingleton<TextureIndex>(_ =>
+			{
+				var texturesPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "textures");
+				var fileNames = Directory.GetFiles(texturesPath, "*.*", SearchOption.AllDirectories);
+				return new TextureIndex(fileNames);
+			});
 			services.AddSingleton<FontIndex>(_ =>
 			{
 				var texturesPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "fonts");
