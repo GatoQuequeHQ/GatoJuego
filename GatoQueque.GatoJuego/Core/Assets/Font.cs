@@ -41,6 +41,4 @@ internal sealed class Font
 		Raylib.UnloadFont(_inVram.Value);
 		_inVram = null;
 	}
-
-	public static implicit operator Raylib_cs.Font(Font font) => font.Value;
 }

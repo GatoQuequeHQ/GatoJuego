@@ -102,8 +102,4 @@ internal sealed class Texture
 			_inRam = null;
 		}
 	}
-
-	public static implicit operator Image(Texture texture) => texture.Image;
-
-	public static implicit operator Texture2D(Texture texture) => texture.Value;
 }
