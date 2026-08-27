@@ -10,15 +10,15 @@ internal static class DependencyInjection
 		{
 			services.AddSingleton<TextureIndex>(_ =>
 			{
-				var texturesPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "textures");
-				var fileNames = Directory.GetFiles(texturesPath, "*.*", SearchOption.AllDirectories);
-				return new TextureIndex(fileNames);
+				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "textures");
+				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+				return new TextureIndex(filePaths);
 			});
 			services.AddSingleton<FontIndex>(_ =>
 			{
-				var texturesPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "fonts");
-				var fileNames = Directory.GetFiles(texturesPath, "*.*", SearchOption.AllDirectories);
-				return new FontIndex(fileNames);
+				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "fonts");
+				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+				return new FontIndex(filePaths);
 			});
 			return services;
 		}
