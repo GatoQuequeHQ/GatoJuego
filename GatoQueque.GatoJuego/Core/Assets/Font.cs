@@ -17,7 +17,7 @@ internal sealed class Font : IDisposable
 	internal Int32 LastUsedTick { get; private set; }
 
 	[MemberNotNullWhen(true, nameof(_inVram))]
-	internal Boolean IsLoaded => _inVram is not null;
+	internal Boolean IsLoadedInVram => _inVram is not null;
 
 	internal Raylib_cs.Font Value
 	{
@@ -34,7 +34,7 @@ internal sealed class Font : IDisposable
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
-		if (IsLoaded)
+		if (IsLoadedInVram)
 			return;
 
 		var inVram = Raylib.LoadFont(_filePath);
@@ -48,7 +48,7 @@ internal sealed class Font : IDisposable
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
-		if (!IsLoaded)
+		if (!IsLoadedInVram)
 			return;
 
 		Raylib.UnloadFont(_inVram.Value);
