@@ -37,9 +37,11 @@ internal sealed class Font : IDisposable
 		if (IsLoaded)
 			return;
 
-		_inVram = Raylib.LoadFont(_filePath);
-		if (!Raylib.IsFontValid(_inVram.Value))
+		var inVram = Raylib.LoadFont(_filePath);
+		if (!Raylib.IsFontValid(inVram))
 			throw new AssetLoadException($"Failed to load to the GPU a texture from the file: {_filePath}");
+
+		_inVram = inVram;
 	}
 
 	internal void Unload()
