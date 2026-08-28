@@ -3,11 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class Texture
+internal sealed class Texture : IDisposable
 {
 	private readonly String _filePath;
 	private Image? _inRam;
 	private Texture2D? _inVram;
+	private Boolean _disposed;
 
 	internal Texture(String filePath)
 	{
@@ -47,6 +48,8 @@ internal sealed class Texture
 	[MemberNotNull(nameof(_inRam))]
 	internal void LoadToRam()
 	{
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
 		if (IsLoadedInRam)
 			return;
 
@@ -69,6 +72,8 @@ internal sealed class Texture
 	[MemberNotNull(nameof(_inVram))]
 	internal void LoadToVram()
 	{
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
 		if (IsLoadedInVram)
 			return;
 
@@ -90,6 +95,8 @@ internal sealed class Texture
 
 	internal void Unload()
 	{
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
 		if (IsLoadedInVram)
 		{
 			Raylib.UnloadTexture(_inVram.Value);
@@ -101,5 +108,20 @@ internal sealed class Texture
 			Raylib.UnloadImage(_inRam.Value);
 			_inRam = null;
 		}
+	}
+
+	public void Dispose()
+	{
+		if (_disposed)
+			return;
+
+		Unload();
+		GC.SuppressFinalize(this);
+		_disposed = true;
+	}
+
+	~Texture()
+	{
+		Dispose();
 	}
 }
