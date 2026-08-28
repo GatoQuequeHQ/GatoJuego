@@ -14,10 +14,13 @@ internal sealed class Font : IDisposable
 		_filePath = filePath;
 	}
 
+	internal Int32 LastUsedTick { get; private set; }
+
 	internal Raylib_cs.Font Value
 	{
 		get
 		{
+			LastUsedTick = Environment.TickCount;
 			LoadToVram();
 			return _inVram.Value;
 		}
