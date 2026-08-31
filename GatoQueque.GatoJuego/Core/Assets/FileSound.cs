@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class FileSound : Sound, IDisposable
+internal sealed class FileSound : Sound
 {
 	private const Single DefaultVolume = 1f;
 	private const Single DefaultPitch = 1f;

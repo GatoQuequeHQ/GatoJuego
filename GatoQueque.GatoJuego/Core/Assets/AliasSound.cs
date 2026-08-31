@@ -2,7 +2,7 @@
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class AliasSound : Sound, IDisposable
+internal sealed class AliasSound : Sound
 {
 	private readonly FileSound _original;
 	private Boolean _disposed;
