@@ -45,7 +45,6 @@ internal sealed class Texture : IDisposable
 		}
 	}
 
-	[MemberNotNull(nameof(_inRam))]
 	internal void LoadToRam()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
@@ -75,7 +74,6 @@ internal sealed class Texture : IDisposable
 		IsLoadedInRam = true;
 	}
 
-	[MemberNotNull(nameof(_inVram))]
 	internal void LoadToVram()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
