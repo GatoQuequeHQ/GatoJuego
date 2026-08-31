@@ -6,7 +6,7 @@ namespace GatoQueque.GatoJuego.Core.Assets;
 internal sealed class Font : IDisposable
 {
 	private readonly String _filePath;
-	private Raylib_cs.Font? _inVram;
+	private Raylib_cs.Font _inVram;
 	private Boolean _disposed;
 
 	internal Font(String filePath)
@@ -16,20 +16,19 @@ internal sealed class Font : IDisposable
 
 	internal Int32 LastUsedTick { get; private set; }
 
-	[MemberNotNullWhen(true, nameof(_inVram))]
-	internal Boolean IsLoadedInVram => _inVram is not null;
+	internal Boolean IsLoadedInVram { get; private set; }
 
-	internal Raylib_cs.Font Value
+	internal ref Raylib_cs.Font Value
 	{
 		get
 		{
+			ObjectDisposedException.ThrowIf(_disposed, this);
 			LastUsedTick = Environment.TickCount;
 			LoadToVram();
-			return _inVram.Value;
+			return ref _inVram;
 		}
 	}
 
-	[MemberNotNull(nameof(_inVram))]
 	internal void LoadToVram()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
@@ -42,6 +41,7 @@ internal sealed class Font : IDisposable
 			throw new AssetLoadException($"Failed to load to the GPU a texture from the file: {_filePath}");
 
 		_inVram = inVram;
+		IsLoadedInVram = true;
 	}
 
 	internal void Unload()
@@ -51,8 +51,8 @@ internal sealed class Font : IDisposable
 		if (!IsLoadedInVram)
 			return;
 
-		Raylib.UnloadFont(_inVram.Value);
-		_inVram = null;
+		Raylib.UnloadFont(_inVram);
+		IsLoadedInVram = false;
 	}
 
 	public void Dispose()
