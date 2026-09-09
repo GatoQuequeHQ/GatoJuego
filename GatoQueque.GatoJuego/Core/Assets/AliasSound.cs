@@ -59,6 +59,8 @@ internal sealed class AliasSound : Sound
 		}
 	}
 
+	internal override Boolean IsPlaying => Raylib.IsSoundPlaying(_inRam);
+
 	internal Boolean IsLoadedInRam { get; private set; }
 
 	internal Int32 LastUsedTick { get; private set; }
