@@ -20,6 +20,12 @@ internal static class DependencyInjection
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
 				return new FontIndex(filePaths);
 			});
+			services.AddSingleton<SoundIndex>(_ =>
+			{
+				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "sounds");
+				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+				return new SoundIndex(filePaths);
+			});
 			return services;
 		}
 	}
