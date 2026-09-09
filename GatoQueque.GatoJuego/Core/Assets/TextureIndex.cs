@@ -20,24 +20,6 @@ internal sealed class TextureIndex : IEnumerable<KeyValuePair<String, Texture>>
 		_textures = textures.ToFrozenDictionary();
 	}
 
-	internal void LoadToRam()
-	{
-		foreach (var texture in _textures.Values)
-			texture.LoadToRam();
-	}
-
-	internal void LoadToVram()
-	{
-		foreach (var texture in _textures.Values)
-			texture.LoadToVram();
-	}
-
-	internal void Unload()
-	{
-		foreach (var texture in _textures.Values)
-			texture.Unload();
-	}
-
 	internal Texture this[String textureFileName] => _textures[textureFileName];
 
 	IEnumerator<KeyValuePair<String, Texture>> IEnumerable<KeyValuePair<String, Texture>>.GetEnumerator() =>
