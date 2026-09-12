@@ -3,22 +3,22 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class Font : IDisposable
+public sealed class Font : IDisposable
 {
 	private readonly String _filePath;
 	private Raylib_cs.Font _inVram;
 	private Boolean _disposed;
 
-	internal Font(String filePath)
+	public Font(String filePath)
 	{
 		_filePath = filePath;
 	}
 
-	internal Int32 LastUsedTick { get; private set; }
+	public Int32 LastUsedTick { get; private set; }
 
-	internal Boolean IsLoadedInVram { get; private set; }
+	public Boolean IsLoadedInVram { get; private set; }
 
-	internal ref Raylib_cs.Font Value
+	public ref Raylib_cs.Font Value
 	{
 		get
 		{
@@ -29,7 +29,7 @@ internal sealed class Font : IDisposable
 		}
 	}
 
-	internal void LoadToVram()
+	public void LoadToVram()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -44,7 +44,7 @@ internal sealed class Font : IDisposable
 		IsLoadedInVram = true;
 	}
 
-	internal void Unload()
+	public void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 

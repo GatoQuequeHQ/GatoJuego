@@ -1,6 +1,6 @@
 ﻿namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class PolyphonicSound : Sound
+public sealed class PolyphonicSound : Sound
 {
 	private readonly LinkedList<Sound> _instances;
 	private LinkedListNode<Sound> _currentInstance;
@@ -13,45 +13,45 @@ internal sealed class PolyphonicSound : Sound
 		_currentInstance = _instances.First!;
 	}
 
-	internal override Single Volume
+	public override Single Volume
 	{
 		get => _currentInstance.Value.Volume;
 		set => _currentInstance.Value.Volume = value;
 	}
 
-	internal override Single Pitch
+	public override Single Pitch
 	{
 		get => _currentInstance.Value.Pitch;
 		set => _currentInstance.Value.Pitch = value;
 	}
 
-	internal override Single Pan
+	public override Single Pan
 	{
 		get => _currentInstance.Value.Pan;
 		set => _currentInstance.Value.Pan = value;
 	}
 
-	internal override Boolean IsPlaying => _currentInstance.Value.IsPlaying;
+	public override Boolean IsPlaying => _currentInstance.Value.IsPlaying;
 
-	internal override void Play()
+	public override void Play()
 	{
 		_currentInstance.Value.Play();
 		_currentInstance = _currentInstance.Next ?? _instances.First!;
 	}
 
-	internal override void Pause()
+	public override void Pause()
 	{
 		foreach (var instance in _instances)
 			instance.Pause();
 	}
 
-	internal override void Resume()
+	public override void Resume()
 	{
 		foreach (var instance in _instances)
 			instance.Resume();
 	}
 
-	internal override void Stop()
+	public override void Stop()
 	{
 		foreach (var instance in _instances)
 			instance.Stop();

@@ -3,27 +3,27 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class Texture : IDisposable
+public sealed class Texture : IDisposable
 {
 	private readonly String _filePath;
 	private Image _inRam;
 	private Texture2D _inVram;
 	private Boolean _disposed;
 
-	internal Texture(String filePath)
+	public Texture(String filePath)
 	{
 		_filePath = filePath;
 	}
 
-	internal Int32 LastUsedTick { get; private set; }
+	public Int32 LastUsedTick { get; private set; }
 
-	internal Boolean IsLoaded => IsLoadedInRam || IsLoadedInVram;
+	public Boolean IsLoaded => IsLoadedInRam || IsLoadedInVram;
 
-	internal Boolean IsLoadedInRam { get; private set; }
+	public Boolean IsLoadedInRam { get; private set; }
 
-	internal Boolean IsLoadedInVram { get; private set; }
+	public Boolean IsLoadedInVram { get; private set; }
 
-	internal ref Image Image
+	public ref Image Image
 	{
 		get
 		{
@@ -34,7 +34,7 @@ internal sealed class Texture : IDisposable
 		}
 	}
 
-	internal ref Texture2D Value
+	public ref Texture2D Value
 	{
 		get
 		{
@@ -45,7 +45,7 @@ internal sealed class Texture : IDisposable
 		}
 	}
 
-	internal void LoadToRam()
+	public void LoadToRam()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -74,7 +74,7 @@ internal sealed class Texture : IDisposable
 		IsLoadedInRam = true;
 	}
 
-	internal void LoadToVram()
+	public void LoadToVram()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -103,7 +103,7 @@ internal sealed class Texture : IDisposable
 		IsLoadedInVram = true;
 	}
 
-	internal void Unload()
+	public void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 

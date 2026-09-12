@@ -2,7 +2,7 @@
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class Music : IDisposable
+public sealed class Music : IDisposable
 {
 	private readonly String _filePath;
 	private Boolean _disposed;
@@ -11,12 +11,12 @@ internal sealed class Music : IDisposable
 	private Single _pitch = AudioConstants.DefaultPitch;
 	private Single _volume = AudioConstants.DefaultVolume;
 
-	internal Music(String filePath)
+	public Music(String filePath)
 	{
 		_filePath = filePath;
 	}
 
-	internal Single Volume
+	public Single Volume
 	{
 		get => _volume;
 		set
@@ -27,7 +27,7 @@ internal sealed class Music : IDisposable
 		}
 	}
 
-	internal Single Pitch
+	public Single Pitch
 	{
 		get => _pitch;
 		set
@@ -38,7 +38,7 @@ internal sealed class Music : IDisposable
 		}
 	}
 
-	internal Single Pan
+	public Single Pan
 	{
 		get => _pan;
 		set
@@ -49,7 +49,7 @@ internal sealed class Music : IDisposable
 		}
 	}
 
-	internal TimeSpan Position
+	public TimeSpan Position
 	{
 		get => TimeSpan.FromSeconds(Raylib.GetMusicTimePlayed(Value));
 		set
@@ -59,7 +59,7 @@ internal sealed class Music : IDisposable
 		}
 	}
 
-	internal Boolean IsLooping
+	public Boolean IsLooping
 	{
 		get => Value.Looping;
 		set
@@ -69,11 +69,11 @@ internal sealed class Music : IDisposable
 		}
 	}
 
-	internal Boolean IsLoadedInRam { get; private set; }
+	public Boolean IsLoadedInRam { get; private set; }
 
-	internal Int32 LastUsedTick { get; private set; }
+	public Int32 LastUsedTick { get; private set; }
 
-	internal ref Raylib_cs.Music Value
+	public ref Raylib_cs.Music Value
 	{
 		get
 		{
@@ -93,7 +93,7 @@ internal sealed class Music : IDisposable
 		_disposed = true;
 	}
 
-	internal void LoadToRam()
+	public void LoadToRam()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -108,7 +108,7 @@ internal sealed class Music : IDisposable
 		IsLoadedInRam = true;
 	}
 
-	internal void Unload()
+	public void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -122,31 +122,31 @@ internal sealed class Music : IDisposable
 		_pan = AudioConstants.DefaultPan;
 	}
 
-	internal void Play()
+	public void Play()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.PlayMusicStream(Value);
 	}
 
-	internal void Pause()
+	public void Pause()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.PauseMusicStream(Value);
 	}
 
-	internal void Resume()
+	public void Resume()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.ResumeMusicStream(Value);
 	}
 
-	internal void Stop()
+	public void Stop()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.StopMusicStream(Value);
 	}
 
-	internal void Update()
+	public void Update()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.UpdateMusicStream(Value);

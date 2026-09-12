@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class FileSound : Sound
+public sealed class FileSound : Sound
 {
 	private const Single DefaultVolume = 1f;
 	private const Single DefaultPitch = 1f;
@@ -15,12 +15,12 @@ internal sealed class FileSound : Sound
 	private Single _pitch = DefaultPitch;
 	private Single _pan = DefaultPan;
 
-	internal FileSound(String filePath)
+	public FileSound(String filePath)
 	{
 		_filePath = filePath;
 	}
 
-	internal override Single Volume
+	public override Single Volume
 	{
 		get => _volume;
 		set
@@ -31,7 +31,7 @@ internal sealed class FileSound : Sound
 		}
 	}
 
-	internal override Single Pitch
+	public override Single Pitch
 	{
 		get => _pitch;
 		set
@@ -42,7 +42,7 @@ internal sealed class FileSound : Sound
 		}
 	}
 
-	internal override Single Pan
+	public override Single Pan
 	{
 		get => _pan;
 		set
@@ -53,13 +53,13 @@ internal sealed class FileSound : Sound
 		}
 	}
 
-	internal override Boolean IsPlaying => Raylib.IsSoundPlaying(_inRam);
+	public override Boolean IsPlaying => Raylib.IsSoundPlaying(_inRam);
 
-	internal Boolean IsLoadedInRam { get; private set; }
+	public Boolean IsLoadedInRam { get; private set; }
 
-	internal Int32 LastUsedTick { get; private set; }
+	public Int32 LastUsedTick { get; private set; }
 
-	internal ref Raylib_cs.Sound Value
+	public ref Raylib_cs.Sound Value
 	{
 		get
 		{
@@ -79,7 +79,7 @@ internal sealed class FileSound : Sound
 		_disposed = true;
 	}
 
-	internal void LoadToRam()
+	public void LoadToRam()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -94,7 +94,7 @@ internal sealed class FileSound : Sound
 		IsLoadedInRam = true;
 	}
 
-	internal void Unload()
+	public void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -108,26 +108,26 @@ internal sealed class FileSound : Sound
 		_pan = DefaultPan;
 	}
 
-	internal override void Play()
+	public override void Play()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.PlaySound(Value);
 	}
 
 
-	internal override void Pause()
+	public override void Pause()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.PauseSound(Value);
 	}
 
-	internal override void Resume()
+	public override void Resume()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.ResumeSound(Value);
 	}
 
-	internal override void Stop()
+	public override void Stop()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 		Raylib.StopSound(Value);

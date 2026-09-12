@@ -1,13 +1,13 @@
 ﻿namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal abstract class Sound
+public abstract class Sound
 {
-	internal abstract Single Volume { get; set; }
-	internal abstract Single Pitch { get; set; }
-	internal abstract Single Pan { get; set; }
-	internal abstract Boolean IsPlaying { get; }
-	internal abstract void Play();
-	internal abstract void Pause();
-	internal abstract void Resume();
-	internal abstract void Stop();
+	public abstract Single Volume { get; set; }
+	public abstract Single Pitch { get; set; }
+	public abstract Single Pan { get; set; }
+	public abstract Boolean IsPlaying { get; }
+	public abstract void Play();
+	public abstract void Pause();
+	public abstract void Resume();
+	public abstract void Stop();
 }

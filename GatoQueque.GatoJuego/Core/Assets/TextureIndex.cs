@@ -3,16 +3,16 @@ using System.IO;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class TextureIndex : IEnumerable<KeyValuePair<String, Texture>>
+public sealed class TextureIndex : IEnumerable<KeyValuePair<String, Texture>>
 {
 	private readonly FrozenDictionary<String, Texture> _textures;
 
-	internal TextureIndex(IEnumerable<String> textureFileNames)
+	public TextureIndex(IEnumerable<String> textureFileNames)
 		: this(textureFileNames.ToArray())
 	{
 	}
 
-	internal TextureIndex(params ReadOnlySpan<String> textureFileNames)
+	public TextureIndex(params ReadOnlySpan<String> textureFileNames)
 	{
 		var textures = new Dictionary<String, Texture>(textureFileNames.Length);
 		foreach (var textureFileName in textureFileNames)
@@ -20,14 +20,14 @@ internal sealed class TextureIndex : IEnumerable<KeyValuePair<String, Texture>>
 		_textures = textures.ToFrozenDictionary();
 	}
 
-	internal Texture this[String textureFileName] => _textures[textureFileName];
+	public Texture this[String textureFileName] => _textures[textureFileName];
 
 	IEnumerator<KeyValuePair<String, Texture>> IEnumerable<KeyValuePair<String, Texture>>.GetEnumerator() =>
 		_textures.GetEnumerator();
 
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-	internal FrozenDictionary<String, Texture>.Enumerator GetEnumerator() => _textures.GetEnumerator();
+	public FrozenDictionary<String, Texture>.Enumerator GetEnumerator() => _textures.GetEnumerator();
 
 	private static String GenerateAssetPath(String assetFileName) =>
 		Path.Combine(Directory.GetCurrentDirectory(), "assets", "textures", assetFileName);
