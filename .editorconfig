@@ -193,9 +193,6 @@ dotnet_diagnostic.ide0058.severity = silent
 csharp_style_prefer_primary_constructors = false
 dotnet_diagnostic.ide0290.severity = suggestion
 
-# IDE0055: Fix formatting
-# dotnet_diagnostic.ide0055.severity = suggestion
-
 # IDE0046: Convert to conditional expression
 dotnet_diagnostic.ide0046.severity = none
 
@@ -223,3 +220,5 @@ csharp_style_expression_bodied_methods = true
 dotnet_diagnostic.cs1591.severity = none
 # Validate arguments of public methods
 dotnet_diagnostic.ca1062.severity = none
+# IDE0055: Fix formatting
+dotnet_diagnostic.ide0055.severity = none
