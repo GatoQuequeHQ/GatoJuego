@@ -1,6 +1,6 @@
 ﻿namespace GatoQueque.GatoJuego.Core.Assets;
 
-public abstract class Sound
+public abstract class Sound : Asset
 {
 	public abstract Single Volume { get; set; }
 	public abstract Single Pitch { get; set; }

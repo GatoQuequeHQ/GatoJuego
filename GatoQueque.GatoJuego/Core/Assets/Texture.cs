@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-public sealed class Texture : IDisposable
+public sealed class Texture : Asset, IDisposable
 {
 	private readonly String _filePath;
 	private Image _inRam;
@@ -103,7 +103,17 @@ public sealed class Texture : IDisposable
 		IsLoadedInVram = true;
 	}
 
-	public void Unload()
+	public override void Load()
+	{
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
+		if (IsLoaded)
+			return;
+
+		LoadToRam();
+	}
+
+	public override void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 

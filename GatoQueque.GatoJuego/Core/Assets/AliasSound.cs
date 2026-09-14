@@ -114,7 +114,9 @@ public sealed class AliasSound : Sound
 		IsLoadedInRam = true;
 	}
 
-	public void Unload()
+	public override void Load() => LoadToRam();
+
+	public override void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 

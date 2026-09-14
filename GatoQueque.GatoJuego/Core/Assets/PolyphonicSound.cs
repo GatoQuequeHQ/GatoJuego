@@ -33,6 +33,18 @@ public sealed class PolyphonicSound : Sound
 
 	public override Boolean IsPlaying => _currentInstance.Value.IsPlaying;
 
+	public override void Load()
+	{
+		foreach (var instance in _instances)
+			instance.Load();
+	}
+
+	public override void Unload()
+	{
+		foreach (var instance in _instances)
+			instance.Unload();
+	}
+
 	public override void Play()
 	{
 		_currentInstance.Value.Play();

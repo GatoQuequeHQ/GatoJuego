@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-public sealed class Font : IDisposable
+public sealed class Font : Asset, IDisposable
 {
 	private readonly String _filePath;
 	private Raylib_cs.Font _inVram;
@@ -44,7 +44,9 @@ public sealed class Font : IDisposable
 		IsLoadedInVram = true;
 	}
 
-	public void Unload()
+	public override void Load() => LoadToVram();
+
+	public override void Unload()
 	{
 		ObjectDisposedException.ThrowIf(_disposed, this);
 
