@@ -8,23 +8,23 @@ internal static class DependencyInjection
 	{
 		internal IServiceCollection AddAssets()
 		{
-			services.AddSingleton<TextureIndex>(_ =>
+			services.AddSingleton<AssetIndex<Texture>>(_ =>
 			{
 				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "textures");
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
-				return new TextureIndex(filePaths);
+				return new AssetIndex<Texture>(path => new Texture(path), "textures", filePaths);
 			});
-			services.AddSingleton<FontIndex>(_ =>
+			services.AddSingleton<AssetIndex<Font>>(_ =>
 			{
 				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "fonts");
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
-				return new FontIndex(filePaths);
+				return new AssetIndex<Font>(path => new Font(path), "fonts", filePaths);
 			});
-			services.AddSingleton<SoundIndex>(_ =>
+			services.AddSingleton<AssetIndex<Sound>>(_ =>
 			{
 				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "sounds");
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
-				return new SoundIndex(filePaths);
+				return new AssetIndex<Sound>(path => new FileSound(path), "sounds", filePaths);
 			});
 			return services;
 		}
