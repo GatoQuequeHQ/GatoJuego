@@ -211,3 +211,15 @@ dotnet_diagnostic.ca2007.severity = none
 
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.ca1303.severity = none
+
+# IDE0160 & IDE0161: Namespace declaration preferences
+csharp_style_namespace_declarations = file_scoped
+
+# IDE0022: Use expression body for methods
+csharp_style_expression_bodied_methods = true
+
+# It may be good to reenable these in the future, but for now, it is too noisy and not very useful.
+# Missing XML comment for publicly visible type or member 'Type_or_Member'
+dotnet_diagnostic.cs1591.severity = none
+# Validate arguments of public methods
+dotnet_diagnostic.ca1062.severity = none
