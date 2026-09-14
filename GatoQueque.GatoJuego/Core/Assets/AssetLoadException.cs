@@ -1,6 +1,6 @@
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class AssetLoadException : Exception
+public sealed class AssetLoadException : Exception
 {
 	public AssetLoadException()
 		: base("A problem occurred while loading the asset")

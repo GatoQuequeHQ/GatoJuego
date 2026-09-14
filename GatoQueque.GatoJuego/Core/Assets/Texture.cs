@@ -3,75 +3,144 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GatoQueque.GatoJuego.Core.Assets;
 
-internal sealed class Texture
+public sealed class Texture : Asset, IDisposable
 {
-	private readonly String _fileName;
-	private Image? _inRam;
-	private Texture2D? _inVRam;
+	private readonly String _filePath;
+	private Image _inRam;
+	private Texture2D _inVram;
+	private Boolean _disposed;
 
-	internal Texture(String fileName)
+	public Texture(String filePath)
 	{
-		_fileName = fileName;
+		_filePath = filePath;
 	}
 
-	internal Int32 LastUsedTick { get; private set; }
+	public Int32 LastUsedTick { get; private set; }
 
-	internal Texture2D Value
+	public Boolean IsLoaded => IsLoadedInRam || IsLoadedInVram;
+
+	public Boolean IsLoadedInRam { get; private set; }
+
+	public Boolean IsLoadedInVram { get; private set; }
+
+	public ref Image Image
 	{
 		get
 		{
+			ObjectDisposedException.ThrowIf(_disposed, this);
 			LastUsedTick = Environment.TickCount;
-			LoadToVRam();
-			return _inVRam.Value;
+			LoadToRam();
+			return ref _inRam;
 		}
 	}
 
-	[MemberNotNull(nameof(_inRam))]
-	internal void LoadToRam()
+	public ref Texture2D Value
 	{
-		if (_inRam is not null)
-			return;
-
-		if (_inVRam is not null)
+		get
 		{
-			_inRam ??= Raylib.LoadImageFromTexture(_inVRam.Value);
-			Raylib.UnloadTexture(_inVRam.Value);
-			_inVRam = null;
-			return;
+			ObjectDisposedException.ThrowIf(_disposed, this);
+			LastUsedTick = Environment.TickCount;
+			LoadToVram();
+			return ref _inVram;
 		}
-
-		_inRam = Raylib.LoadImage(_fileName);
 	}
 
-	[MemberNotNull(nameof(_inVRam))]
-	internal void LoadToVRam()
+	public void LoadToRam()
 	{
-		if (_inVRam is not null)
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
+		if (IsLoadedInRam)
 			return;
 
-		if (_inRam is not null)
+		Image inRam;
+		if (IsLoadedInVram)
 		{
-			_inVRam = Raylib.LoadTextureFromImage(_inRam.Value);
-			Raylib.UnloadImage(_inRam.Value);
-			_inRam = null;
+			inRam = Raylib.LoadImageFromTexture(_inVram);
+			if (!Raylib.IsImageValid(inRam))
+				throw new AssetLoadException($"Failed to load to the CPU a texture from the GPU: {_filePath}");
+			_inRam = inRam;
+			IsLoadedInRam = true;
+
+			Raylib.UnloadTexture(_inVram);
+			IsLoadedInVram = false;
 			return;
 		}
 
-		_inVRam = Raylib.LoadTexture(_fileName);
+		inRam = Raylib.LoadImage(_filePath);
+		if (!Raylib.IsImageValid(inRam))
+			throw new AssetLoadException($"Failed to load to the CPU a texture from the file: {_filePath}");
+
+		_inRam = inRam;
+		IsLoadedInRam = true;
 	}
 
-	internal void Unload()
+	public void LoadToVram()
 	{
-		if (_inVRam is not null)
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
+		if (IsLoadedInVram)
+			return;
+
+		Texture2D inVram;
+		if (IsLoadedInRam)
 		{
-			Raylib.UnloadTexture(_inVRam.Value);
-			_inVRam = null;
+			inVram = Raylib.LoadTextureFromImage(_inRam);
+			if (!Raylib.IsTextureValid(inVram))
+				throw new AssetLoadException($"Failed to load to the GPU a texture from the CPU: {_filePath}");
+			_inVram = inVram;
+			IsLoadedInVram = true;
+
+			Raylib.UnloadImage(_inRam);
+			IsLoadedInRam = false;
+			return;
 		}
 
-		if (_inRam is not null)
+		inVram = Raylib.LoadTexture(_filePath);
+		if (!Raylib.IsTextureValid(inVram))
+			throw new AssetLoadException($"Failed to load to the GPU a texture from the file: {_filePath}");
+
+		_inVram = inVram;
+		IsLoadedInVram = true;
+	}
+
+	public override void Load()
+	{
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
+		if (IsLoaded)
+			return;
+
+		LoadToRam();
+	}
+
+	public override void Unload()
+	{
+		ObjectDisposedException.ThrowIf(_disposed, this);
+
+		if (IsLoadedInVram)
 		{
-			Raylib.UnloadImage(_inRam.Value);
-			_inRam = null;
+			Raylib.UnloadTexture(_inVram);
+			IsLoadedInVram = false;
 		}
+		else if (IsLoadedInRam)
+		{
+			Raylib.UnloadImage(_inRam);
+			IsLoadedInRam = false;
+		}
+	}
+
+	public void Dispose()
+	{
+		if (_disposed)
+			return;
+
+		Unload();
+		GC.SuppressFinalize(this);
+		_disposed = true;
+	}
+
+	~Texture()
+	{
+		Dispose();
 	}
 }
