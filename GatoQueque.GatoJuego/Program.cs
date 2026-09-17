@@ -12,6 +12,7 @@ services.AddLocalization(options =>
 });
 services.AddAssets();
 services.AddContent();
+services.AddSingleton<GameService>();
 
 var serviceProvider = services.BuildServiceProvider();
 var game = serviceProvider.GetRequiredService<GameService>();
