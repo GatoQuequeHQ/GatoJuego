@@ -12,18 +12,24 @@ internal static class DependencyInjection
 			{
 				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "textures");
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+				for (var i = 0; i < filePaths.Length; i++)
+					filePaths[i] = Path.GetRelativePath(directoryPath, filePaths[i]);
 				return new AssetIndex<Texture>(path => new Texture(path), "textures", filePaths);
 			});
 			services.AddSingleton<AssetIndex<Font>>(_ =>
 			{
 				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "fonts");
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+				for (var i = 0; i < filePaths.Length; i++)
+					filePaths[i] = Path.GetRelativePath(directoryPath, filePaths[i]);
 				return new AssetIndex<Font>(path => new Font(path), "fonts", filePaths);
 			});
 			services.AddSingleton<AssetIndex<Sound>>(_ =>
 			{
 				var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "sounds");
 				var filePaths = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories);
+				for (var i = 0; i < filePaths.Length; i++)
+					filePaths[i] = Path.GetRelativePath(directoryPath, filePaths[i]);
 				return new AssetIndex<Sound>(path => new FileSound(path), "sounds", filePaths);
 			});
 			return services;
