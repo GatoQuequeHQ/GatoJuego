@@ -2,9 +2,9 @@ namespace GatoQueque.GatoJuego.Shared.Logging;
 
 internal static class DependencyInjection
 {
-	internal static ILoggingBuilder AddLogging(this ILoggingBuilder logging)
+	internal static IServiceCollection AddLogs(this IServiceCollection services)
 	{
-		logging.Services.TryAddSingleton<ILoggerProvider, DefaultLoggerProvider>();
-		return logging;
+		services.TryAddSingleton<ILoggerProvider, DefaultLoggerProvider>();
+		return services;
 	}
 }

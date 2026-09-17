@@ -3,20 +3,16 @@ using GatoQueque.GatoJuego.Core.Assets;
 using GatoQueque.GatoJuego.Core.Content;
 using GatoQueque.GatoJuego.Shared.Logging;
 
-var builder = Host.CreateApplicationBuilder(args);
+var services = new ServiceCollection();
 
-builder.Logging
-	.ClearProviders()
-	.AddLogging();
-
-
-builder.Services.AddLocalization(options =>
+services.AddLogs();
+services.AddLocalization(options =>
 {
 	options.ResourcesPath = "Resources";
 });
-builder.Services.AddAssets();
-builder.Services.AddContent();
-builder.Services.AddHostedService<GameService>();
+services.AddAssets();
+services.AddContent();
 
-var host = builder.Build();
-host.Run();
+var serviceProvider = services.BuildServiceProvider();
+var game = serviceProvider.GetRequiredService<GameService>();
+game.Run();
