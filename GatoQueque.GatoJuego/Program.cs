@@ -5,7 +5,11 @@ using GatoQueque.GatoJuego.Shared.Logging;
 
 var services = new ServiceCollection();
 
-services.AddLogs();
+services.AddLogging(builder =>
+{
+	builder.ClearProviders();
+	builder.AddLogging();
+});
 services.AddLocalization(options =>
 {
 	options.ResourcesPath = "Resources";
